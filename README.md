@@ -23,10 +23,17 @@ The rules:
 - Corrupted Data: One thread might overwrite the data being used by another thread.
 
 ## How to avoid data race?
-- Using Mutex
+- Using **Mutex**
 - Only one thread can access the critical section (shared data) of code at a time.
 - Locking a mutex before accessing shared data ensures that only one thread can access the data at a time.
 - unlock it when we are done working on it.
+
+## What is a thread?
+A thread is an execution unit that has its own program counter, a stack and a set of registers that reside in a process. \
+![Image](https://github.com/user-attachments/assets/7d0df3c8-979b-469f-9f9f-c08fe4bff847)
+
+## Single thread vs Multithread
+![Image](https://github.com/user-attachments/assets/3e9d0202-d9fa-4414-85be-3f114974c219)
 
 ### Arguments:
 1. number_of_philo: equals to number of forks
@@ -35,3 +42,15 @@ The rules:
 4. time_to_sleep(ms): time the philo to sleep
 5. number_of_times each philo must eat (optional): program stops when all philo eat witht the number, if not program stops when a philo die
 
+# Function
+1. int pthread_create (pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg);
+- starts execution by invoking start routine
+- stores the thread_ID in buffer pointed by thread
+- RETURN VALUE: 0 (SUCCESS) / error number
+
+attr (set as NULL) - is set to default
+
+#### How it terminates:
+- when calling pthread_exit
+- when pthread_cancel
+- any of the thread calls exit

@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:22:41 by wshee             #+#    #+#             */
-/*   Updated: 2025/05/25 16:27:18 by wshee            ###   ########.fr       */
+/*   Updated: 2025/06/12 21:44:29 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,14 @@ void deposit(int amount)
 int main()
 {
     int before = read_balance();
+	pthread_t t1;
+	pthread_t t2;
     printf("Before: %d\n", before);
-    deposit(300);
-    deposit(200);
+	pthread_create(&t1, NULL, deposit, NULL);
+    pthread_create(&t2, NULL, deposit, NULL);
+	// deposit(300);
+    // deposit(200);
+	pthread_join()
     int after = read_balance();
     printf("After: %d\n", after);
     return(0);
