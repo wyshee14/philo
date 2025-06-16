@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 19:56:28 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/16 21:37:32 by wshee            ###   ########.fr       */
+/*   Created: 2024/11/07 10:29:56 by wshee             #+#    #+#             */
+/*   Updated: 2024/11/18 14:32:48 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <pthread.h>
+#include "libft.h"
 
-int main (int ac, char **av)
+int	ft_isascii(int c)
 {
-	if (ac < 5)
-		return(1);
-	int i = 0;
-	while (av[i])
-	{
-		int j = 0;
-		while (av[i][j])
-		{
-			if (av[i][j] <= '0' || av[i][j] >= '9')
-				return(1);
-		}
-		i++;
-	}
-	//init_philo
+	if (c >= 0 && c <= 127)
+		return (1);
+	else
+		return (0);
 }
 
-// void init_philo()
-// philo update the time before eating
-// mutex lock when updating the time
-// alarm records the time
-// thread to monitor of the alarm
-// mutex
+// int	main(void)
+// {
+// 	char	c;
+
+// 	c = 'A';
+// 	printf("%d\n", ft_isascii(c));
+// }

@@ -1,38 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 19:56:28 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/16 21:37:32 by wshee            ###   ########.fr       */
+/*   Created: 2024/11/10 10:53:02 by wshee             #+#    #+#             */
+/*   Updated: 2024/11/18 14:35:59 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <pthread.h>
+#include "libft.h"
 
-int main (int ac, char **av)
+char	*ft_strdup(const char *s)
 {
-	if (ac < 5)
-		return(1);
-	int i = 0;
-	while (av[i])
+	int		i;
+	int		len;
+	char	*dup;
+
+	i = 0;
+	len = ft_strlen(s);
+	dup = (char *)malloc((len + 1) * sizeof(char));
+	if (!dup)
+		return (NULL);
+	while (i < len)
 	{
-		int j = 0;
-		while (av[i][j])
-		{
-			if (av[i][j] <= '0' || av[i][j] >= '9')
-				return(1);
-		}
+		dup[i] = s[i];
 		i++;
 	}
-	//init_philo
+	dup[i] = '\0';
+	return (dup);
 }
 
-// void init_philo()
-// philo update the time before eating
-// mutex lock when updating the time
-// alarm records the time
-// thread to monitor of the alarm
-// mutex
+// int main(void)
+// {
+// 	char str[] = "Hello";
+// 	char *dup = ft_strdup(str);
+// 	printf("%s\n", dup);
+//  free(dup);
+// }

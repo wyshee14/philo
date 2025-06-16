@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 19:56:28 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/16 21:37:32 by wshee            ###   ########.fr       */
+/*   Created: 2024/11/11 16:21:02 by wshee             #+#    #+#             */
+/*   Updated: 2024/11/17 18:53:11 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <pthread.h>
+#include "libft.h"
 
-int main (int ac, char **av)
+void	ft_putstr_fd(char *s, int fd)
 {
-	if (ac < 5)
-		return(1);
-	int i = 0;
-	while (av[i])
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0')
 	{
-		int j = 0;
-		while (av[i][j])
-		{
-			if (av[i][j] <= '0' || av[i][j] >= '9')
-				return(1);
-		}
+		write (fd, &s[i], 1);
 		i++;
 	}
-	//init_philo
 }
 
-// void init_philo()
-// philo update the time before eating
-// mutex lock when updating the time
-// alarm records the time
-// thread to monitor of the alarm
-// mutex
+// int main(void)
+// {
+// 	char s[] = "Hello";
+// 	ft_putstr_fd(s, 1);
+// }

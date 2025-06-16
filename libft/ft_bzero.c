@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 19:56:28 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/16 21:37:32 by wshee            ###   ########.fr       */
+/*   Created: 2024/11/07 10:29:16 by wshee             #+#    #+#             */
+/*   Updated: 2024/11/17 11:26:52 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <pthread.h>
+#include "libft.h"
 
-int main (int ac, char **av)
+void	ft_bzero(void *s, unsigned int n)
 {
-	if (ac < 5)
-		return(1);
-	int i = 0;
-	while (av[i])
+	unsigned char	*p;
+	int				i;
+
+	p = (unsigned char *)s;
+	i = 0;
+	while (n > 0)
 	{
-		int j = 0;
-		while (av[i][j])
-		{
-			if (av[i][j] <= '0' || av[i][j] >= '9')
-				return(1);
-		}
+		p[i] = 0;
+		n--;
 		i++;
 	}
-	//init_philo
 }
 
-// void init_philo()
-// philo update the time before eating
-// mutex lock when updating the time
-// alarm records the time
-// thread to monitor of the alarm
-// mutex
+//Type cast p to unsigned char (to access memory block one by one only one byte,
+//avoid sign issues)
+// #include <stdio.h>
+// int main()
+// {
+//     char str[] = "I am apple";
+//     ft_bzero(str + 5, 5);
+//     printf("%s\n", str);
+// }

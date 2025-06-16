@@ -1,38 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   ft_printchar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 19:56:28 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/16 21:37:32 by wshee            ###   ########.fr       */
+/*   Created: 2024/11/26 18:21:04 by wshee             #+#    #+#             */
+/*   Updated: 2024/12/23 22:08:57 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <pthread.h>
+#include "libft.h"
 
-int main (int ac, char **av)
+int	ft_printchar(int c)
 {
-	if (ac < 5)
-		return(1);
-	int i = 0;
-	while (av[i])
-	{
-		int j = 0;
-		while (av[i][j])
-		{
-			if (av[i][j] <= '0' || av[i][j] >= '9')
-				return(1);
-		}
-		i++;
-	}
-	//init_philo
+	write(1, &c, 1);
+	return (1);
 }
-
-// void init_philo()
-// philo update the time before eating
-// mutex lock when updating the time
-// alarm records the time
-// thread to monitor of the alarm
-// mutex

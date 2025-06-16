@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 19:56:28 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/16 21:37:32 by wshee            ###   ########.fr       */
+/*   Created: 2024/11/07 10:30:25 by wshee             #+#    #+#             */
+/*   Updated: 2024/11/18 14:36:29 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <pthread.h>
+#include "libft.h"
 
-int main (int ac, char **av)
+size_t	ft_strlen(const char *s)
 {
-	if (ac < 5)
-		return(1);
-	int i = 0;
-	while (av[i])
+	int	counter;
+
+	counter = 0;
+	while (s[counter] != 0)
 	{
-		int j = 0;
-		while (av[i][j])
-		{
-			if (av[i][j] <= '0' || av[i][j] >= '9')
-				return(1);
-		}
-		i++;
+		counter++;
 	}
-	//init_philo
+	return (counter);
 }
 
-// void init_philo()
-// philo update the time before eating
-// mutex lock when updating the time
-// alarm records the time
-// thread to monitor of the alarm
-// mutex
+// //int	main(void)
+// {
+// 	char	*s = "abcdefg";
+// 	printf("%zu\n", ft_strlen(s));
+// }

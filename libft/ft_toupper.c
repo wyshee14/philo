@@ -1,38 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 19:56:28 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/16 21:37:32 by wshee            ###   ########.fr       */
+/*   Created: 2024/11/08 12:33:27 by wshee             #+#    #+#             */
+/*   Updated: 2024/11/17 13:44:43 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <pthread.h>
+#include "libft.h"
 
-int main (int ac, char **av)
+int	ft_toupper(int c)
 {
-	if (ac < 5)
-		return(1);
-	int i = 0;
-	while (av[i])
-	{
-		int j = 0;
-		while (av[i][j])
-		{
-			if (av[i][j] <= '0' || av[i][j] >= '9')
-				return(1);
-		}
-		i++;
-	}
-	//init_philo
+	if (c >= 'a' && c <= 'z')
+		c -= 32;
+	return (c);
 }
 
-// void init_philo()
-// philo update the time before eating
-// mutex lock when updating the time
-// alarm records the time
-// thread to monitor of the alarm
-// mutex
+// int main (void)
+// {
+// 	char *str = "abcd";
+// 	int i = 0;
+// 	int n = 0;
+// 	while (str[n] != '\0')
+// 		n++;
+// 	while (i < n)
+// 	{
+// 		char c = str[i];
+// 		c = ft_toupper(c);
+// 		printf("%c", c);
+// 		i++;
+// 	}
+// 	printf("\n");
+// }
