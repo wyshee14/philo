@@ -8,14 +8,12 @@ NAME = philo
 #The -I (uppercase i) flag is used to add a directory to the list of directories
 #the compiler searches for header files (#include directives).
 #Directories
-LIBFT_DIR = libft
-LIBFT = $(LIBFT_DIR)/libft.a
 INC_DIR = include/
 SRC_DIR = src/
 INC = -I$(INC_DIR)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3 -O3 -I$(INC_DIR) -I$(LIBFT_DIR)
+CFLAGS = -Wall -Wextra -Werror -g3 -O3 -I$(INC_DIR)
 
 #Source Files
 #addprefix <prefix>, <list>
@@ -31,8 +29,7 @@ all: $(NAME)
 
 # -L tells the linker where to look for libraries -L<directory>
 $(NAME) : $(OBJ_SRC)
-	@make -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) $(OBJ_SRC) $(LIBFT) -o $(NAME) -pthread
+	$(CC) $(CFLAGS) $(OBJ_SRC) -o $(NAME) -pthread
 	@echo "$(GREEN)-----COMPILED DONE-----\n"
 
 %.o : %.c
@@ -40,11 +37,9 @@ $(NAME) : $(OBJ_SRC)
 
 clean:
 	rm -rf $(OBJ_SRC)
-	@make -C $(LIBFT_DIR) clean
 
 fclean : clean
 	rm -f $(NAME)
-	@make -C $(LIBFT_DIR) fclean
 	@echo "$(GREEN)-----FULLY REMOVED-----\n$(WHITE)"
 
 re: fclean all
