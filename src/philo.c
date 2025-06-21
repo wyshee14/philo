@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 19:56:28 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/21 17:42:37 by wshee            ###   ########.fr       */
+/*   Updated: 2025/06/21 22:28:22 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,18 @@ int main (int ac, char **av)
 	int i = 1;
 	while (av[i])
 	{
-		//check the argument is a number
-		// int j = 0;
-		// while (av[i][j])
-		// {
-		// 	printf("arguemnt: %c\n", av[i][j]);
-		// 	if (ft_isdigit(av[i][j]) == 1)
-		// 	{
-		// 		return (1);
-		// 	}
-		// 	j++;
-		// }
 		printf("argument[%d]: %s\n", i, av[i]);
+		//check the argument is a number
 		if (check_is_valid_number(av[i]) == -1)
 		{
 			printf("argument is not a number\n");
 			return(1);
 		}
+		//check int min and int max
+
+		// convert into integer
+		int arg = ft_atoi(av[i]);
+		printf("atoi: %d\n", arg);
 		i++;
 	}
 	//init_philo
