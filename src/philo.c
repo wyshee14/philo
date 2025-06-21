@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 19:56:28 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/19 22:14:25 by wshee            ###   ########.fr       */
+/*   Updated: 2025/06/21 17:42:37 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,26 @@ int main (int ac, char **av)
 		printf("argument must be more than 5\n");
 		return (1);
 	}
-	int i = 0;
+	int i = 1;
 	while (av[i])
 	{
-		int j = 0;
-		while (av[i][j])
+		//check the argument is a number
+		// int j = 0;
+		// while (av[i][j])
+		// {
+		// 	printf("arguemnt: %c\n", av[i][j]);
+		// 	if (ft_isdigit(av[i][j]) == 1)
+		// 	{
+		// 		return (1);
+		// 	}
+		// 	j++;
+		// }
+		printf("argument[%d]: %s\n", i, av[i]);
+		if (check_is_valid_number(av[i]) == -1)
 		{
-			if (av[i][j] >= '0' && av[i][j] <= '9')
-			{
-				printf("argument is not a number\n");
-			}
-			j++;
+			printf("argument is not a number\n");
+			return(1);
 		}
-		int arg = ft_atoi(av[i]);
-		printf("number[%d]: %d\n", i, arg);
 		i++;
 	}
 	//init_philo
