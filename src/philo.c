@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 19:56:28 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/21 22:28:22 by wshee            ###   ########.fr       */
+/*   Updated: 2025/06/22 22:15:03 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 
 int main (int ac, char **av)
 {
-	if (ac < 5)
+	t_philo philo;
+	int args[ac - 1];
+
+	if (ac < 5 || ac > 6)
 	{
 		printf("argument must be more than 5\n");
 		return (1);
@@ -24,25 +27,51 @@ int main (int ac, char **av)
 	int i = 1;
 	while (av[i])
 	{
-		printf("argument[%d]: %s\n", i, av[i]);
+		// printf("argument[%d]: %s\n", i, av[i]);
 		//check the argument is a number
 		if (check_is_valid_number(av[i]) == -1)
 		{
 			printf("argument is not a number\n");
 			return(1);
 		}
-		//check int min and int max
-
 		// convert into integer
-		int arg = ft_atoi(av[i]);
-		printf("atoi: %d\n", arg);
+		args[i - 1] = ft_atoi(av[i]);
 		i++;
 	}
-	//init_philo
-	return(0);
+	// for (int i = 0; i < ac - 1; i++)
+	// 	printf("atoi: %d\n", args[i]);
+	init_philo(&philo);
+	set_arguments(&philo, args);
+	init_threads(&philo, ac);
+	return (0);
 }
 
-// void init_philo()
+void init_philo(t_philo *philo)
+{
+	memset(philo, 0, sizeof(t_philo));
+}
+
+void set_arguments(t_philo *philo, int *args)
+{
+	philo->num_of_philo = args[0];
+	philo->time_to_die = args[1];
+	philo->time_to_eat = args[2];
+	philo->time_to_sleep = args[3];
+	philo->number_of_times_to_eat = args[4];
+}
+
+void init_threads(t_philo *philo, int ac)
+{
+	int i;
+	pthread_t philo_thread[ac - 1];
+
+	i = 0;
+	while(i < philo->num_of_philo)
+	{
+		if (pthread_create(&philo_thread[i], NULL, routine, NULL));
+	}
+}
+
 // philo update the time before eating
 // mutex lock when updating the time
 // alarm records the time

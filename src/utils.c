@@ -6,13 +6,11 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 21:53:33 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/21 22:26:29 by wshee            ###   ########.fr       */
+/*   Updated: 2025/06/22 21:13:24 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../include/philo.h"
-
-int check_is_valid_number(char *str);
 
 int ft_atoi (char *str)
 {
