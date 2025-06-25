@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:02:03 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/22 22:08:53 by wshee            ###   ########.fr       */
+/*   Updated: 2025/06/25 23:04:35 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int ft_atoi (char *str);
 
 void init_philo(t_philo *philo);
 void set_arguments(t_philo *philo, int *args);
-
+void init_threads(t_philo *philo);
+void *routine();
 
 #endif

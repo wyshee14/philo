@@ -4,6 +4,7 @@
 # include <sys/time.h>
 
 int x = 0;
+pthread_mutex_t mutex;
 
 void *routine()
 {
@@ -20,7 +21,6 @@ void *routine()
 
 int main()
 {
-	pthread_mutex_t mutex;
 	//unsigned long integer type
 	pthread_t thread[4];
 	struct timeval tv;
@@ -58,6 +58,6 @@ int main()
 	//destroy mutex lock
 	pthread_mutex_destroy(&mutex);
 
-	printf("x is %d\n", x);
+	// printf("x is %d\n", x);
 	return (0);
 }

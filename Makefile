@@ -29,11 +29,11 @@ all: $(NAME)
 
 # -L tells the linker where to look for libraries -L<directory>
 $(NAME) : $(OBJ_SRC)
-	$(CC) $(CFLAGS) $(OBJ_SRC) -o $(NAME) -pthread
+	$(CC) $(CFLAGS) -pthread $(OBJ_SRC) -o $(NAME) 
 	@echo "$(GREEN)-----COMPILED DONE-----\n"
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -pthread -c $< -o $@
 
 clean:
 	rm -rf $(OBJ_SRC)

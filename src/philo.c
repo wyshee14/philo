@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 19:56:28 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/22 22:15:03 by wshee            ###   ########.fr       */
+/*   Updated: 2025/06/25 23:04:11 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int main (int ac, char **av)
 	// 	printf("atoi: %d\n", args[i]);
 	init_philo(&philo);
 	set_arguments(&philo, args);
-	init_threads(&philo, ac);
+	init_threads(&philo);
 	return (0);
 }
 
@@ -60,16 +60,42 @@ void set_arguments(t_philo *philo, int *args)
 	philo->number_of_times_to_eat = args[4];
 }
 
-void init_threads(t_philo *philo, int ac)
+void init_threads(t_philo *philo)
 {
+	pthread_t philo_thread[philo->num_of_philo];
+	pthread_mutex_t mutex;
 	int i;
-	pthread_t philo_thread[ac - 1];
 
+	i = 0;
+	pthread_mutex_init(&mutex, NULL);
+	while(i < philo->num_of_philo)
+	{
+		if (pthread_create(&philo_thread[i], NULL, routine, NULL)!= 0)
+		{
+			printf("Failed to create thread [%d]", i);
+			return ;
+		}
+		printf("Thread %d has started\n", i);
+		i++;
+	}
 	i = 0;
 	while(i < philo->num_of_philo)
 	{
-		if (pthread_create(&philo_thread[i], NULL, routine, NULL));
+		if (pthread_join(philo_thread[i], NULL) != 0)
+		{
+			printf("Failed to join thread [%d]", i);
+			return ;
+		}
+		printf("Thread %d finished execution\n", i);
+		i++;
 	}
+	pthread_mutex_destroy(&mutex);
+}
+
+void *routine()
+{
+	printf("Hi I am philo\n");
+	return (NULL);
 }
 
 // philo update the time before eating
