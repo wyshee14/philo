@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   test2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:22:41 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/12 21:44:29 by wshee            ###   ########.fr       */
+/*   Updated: 2025/06/27 22:09:07 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,15 @@ void deposit(int amount)
 int main()
 {
     int before = read_balance();
+    printf("Before: %d\n", before);
 	pthread_t t1;
 	pthread_t t2;
-    printf("Before: %d\n", before);
-	pthread_create(&t1, NULL, deposit, NULL);
-    pthread_create(&t2, NULL, deposit, NULL);
-	// deposit(300);
-    // deposit(200);
-	pthread_join()
+	int deposit1 = 300;
+    int deposit2 = 200;
+	pthread_create(&t1, NULL, deposit, (void*)deposit1);
+    pthread_create(&t2, NULL, deposit, (void*)deposit1);
+	pthread_join(&t1, NULL);
+    pthread_join(&t2, NULL);
     int after = read_balance();
     printf("After: %d\n", after);
     return(0);

@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:02:03 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/27 18:38:54 by wshee            ###   ########.fr       */
+/*   Updated: 2025/06/27 23:07:38 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ typedef struct t_data
 	int time_to_eat;
 	int time_to_sleep;
 	int number_of_times_to_eat;
-	pthread_mutex_t *forks;
 	pthread_t *philos;
+	pthread_mutex_t *forks;
 }				t_data;
+//here change to tphuilo
 
+// put pthread here
 typedef struct s_philo
 {
 	int philo_index;
@@ -46,11 +48,13 @@ int check_is_valid_number(char *str);
 int ft_atoi (char *str);
 
 void parse_arguments(int ac, char **av, t_data *data);
-void init_data(t_data *data);
-void set_arguments(t_data *data, int *args);
+void init_data(t_data *data, int *args);
 void init_threads(t_data *data);
 void *routine();
 void print_status(char *str, int i);
 size_t get_time_stamp();
+
+void init_forks(t_data *data);
+void destroy_forks(t_data *data);
 
 #endif

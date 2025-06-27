@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 19:56:28 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/27 18:03:40 by wshee            ###   ########.fr       */
+/*   Updated: 2025/06/27 22:27:02 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int main (int ac, char **av)
 	}
 	parse_arguments(ac, av, &data);
 	init_threads(&data);
+	init_forks(&data);
+	destroy_forks(&data);
 	return (0);
 }
 
@@ -51,17 +53,12 @@ void parse_arguments(int ac, char **av, t_data *data)
 	}
 	// for (int i = 0; i < ac - 1; i++)
 	// 	printf("atoi: %d\n", args[i]);
-	init_data(data);
-	set_arguments(data, args);
+	init_data(data, args);
 }
 
-void init_data(t_data *data)
+void init_data(t_data *data, int *args)
 {
 	memset(data, 0, sizeof(t_data));
-}
-
-void set_arguments(t_data *data, int *args)
-{
 	if (data->num_of_philo > 200)
 	return ;
 	else
@@ -72,6 +69,8 @@ void set_arguments(t_data *data, int *args)
 	data->number_of_times_to_eat = args[4];
 	data->philos = (pthread_t *)malloc(data->num_of_philo * sizeof(pthread_t));
 	memset(data->philos, 0, sizeof(pthread_t));
+	data->forks = (pthread_mutex_t *)malloc(data->num_of_philo * sizeof(pthread_mutex_t));
+	memset(data->forks, 0, sizeof(pthread_mutex_t));
 }
 
 void init_threads(t_data *data)
@@ -109,13 +108,36 @@ void init_threads(t_data *data)
 	// pthread_mutex_destroy(&mutex);
 }
 
-void *routine(void *arg)
+void init_forks(t_data *data)
 {
-	//eat
-	//think
-	//sleep
-	printf("Hi I am philo\n");
-	return (NULL);
+	int i;
+
+	i = 0;
+	while (i < data->num_of_philo)
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+		{
+			write(2, "Failed to init mutex\n", 22);
+			return ;
+		}
+		i++;
+	}
+}
+
+void destroy_forks(t_data *data)
+{
+	int i;
+
+	i = 0;
+	while (i < data->num_of_philo)
+	{
+		if (pthread_mutex_destroy(&data->forks[i]) != 0)
+		{
+			write(2, "Failed to destroy mutex\n", 25);
+			return ;
+		}
+		i++;
+	}
 }
 
 void print_status(char *str, int i)
