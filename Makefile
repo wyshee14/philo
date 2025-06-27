@@ -12,7 +12,7 @@ INC_DIR = include/
 SRC_DIR = src/
 INC = -I$(INC_DIR)
 
-CC = cc
+CC = clang
 CFLAGS = -Wall -Wextra -Werror -g3 -O3 -I$(INC_DIR)
 
 #Source Files
