@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: welow <welow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 21:53:33 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/27 21:24:21 by wshee            ###   ########.fr       */
+/*   Updated: 2025/06/29 18:45:00 by welow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,24 @@ int check_is_valid_number(char *str)
 		i++;
 	}
 	return (0);
+}
+
+void print_status(char *str, int i)
+{
+	printf("%lu %d %s\n", get_time_stamp(), i, str);
+}
+
+//print the current timestamp in milliseconds
+//fx gettimeofday: gives the number of seconds and microseconds since the Epoch
+//Epoch time: number of seconds that have elapsed since January 1, 1970
+
+size_t get_time_stamp()
+{
+	struct timeval tv;
+
+	if (gettimeofday(&tv, NULL) != 0)
+	{
+		write(2, "error gettimestamp\n", 20);
+	}
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }

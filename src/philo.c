@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: welow <welow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 19:56:28 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/27 22:27:02 by wshee            ###   ########.fr       */
+/*   Updated: 2025/06/29 17:40:35 by welow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,19 @@ int main (int ac, char **av)
 		printf("argument must be more than 5\n");
 		return (1);
 	}
-	parse_arguments(ac, av, &data);
-	init_threads(&data);
+	parse_argument(av);
+	init_data(&data, av);
 	init_forks(&data);
+	init_philo(&data, av);
+	init_threads(&data);
 	destroy_forks(&data);
 	return (0);
 }
 
-void parse_arguments(int ac, char **av, t_data *data)
+void parse_argument(char **av)
 {
-	int args[ac - 1];
 	int i;
-	
+
 	i = 1;
 	while (av[i])
 	{
@@ -48,80 +49,11 @@ void parse_arguments(int ac, char **av, t_data *data)
 			exit(1);
 		}
 		// convert into integer
-		args[i - 1] = ft_atoi(av[i]);
+		//args[i - 1] = ft_atoi(av[i]);
 		i++;
 	}
 	// for (int i = 0; i < ac - 1; i++)
 	// 	printf("atoi: %d\n", args[i]);
-	init_data(data, args);
-}
-
-void init_data(t_data *data, int *args)
-{
-	memset(data, 0, sizeof(t_data));
-	if (data->num_of_philo > 200)
-	return ;
-	else
-	data->num_of_philo = args[0];
-	data->time_to_die = args[1];
-	data->time_to_eat = args[2];
-	data->time_to_sleep = args[3];
-	data->number_of_times_to_eat = args[4];
-	data->philos = (pthread_t *)malloc(data->num_of_philo * sizeof(pthread_t));
-	memset(data->philos, 0, sizeof(pthread_t));
-	data->forks = (pthread_mutex_t *)malloc(data->num_of_philo * sizeof(pthread_mutex_t));
-	memset(data->forks, 0, sizeof(pthread_mutex_t));
-}
-
-void init_threads(t_data *data)
-{
-	// pthread_t philo_thread[philo->num_of_philo];
-	// pthread_mutex_t mutex;
-	int i;
-
-	i = 0;
-	// pthread_mutex_init(&mutex, NULL);
-	while(i < data->num_of_philo)
-	{
-		if (pthread_create(&data->philos[i], NULL, routine, NULL) != 0)
-		{
-			//remove()
-			write(2, "Failed to create thread\n", 25);
-			return ;
-		}
-		// printf("Thread %d has started\n", i);
-		print_status("start", i);
-		i++;
-	}
-	i = 0;
-	while(i < data->num_of_philo)
-	{
-		if (pthread_join(data->philos[i], NULL) != 0)
-		{
-			write(2, "Failed to join thread\n", 23);
-			return ;
-		}
-		// printf("Thread %d finished execution\n", i);
-		print_status("end", i);
-		i++;
-	}
-	// pthread_mutex_destroy(&mutex);
-}
-
-void init_forks(t_data *data)
-{
-	int i;
-
-	i = 0;
-	while (i < data->num_of_philo)
-	{
-		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
-		{
-			write(2, "Failed to init mutex\n", 22);
-			return ;
-		}
-		i++;
-	}
 }
 
 void destroy_forks(t_data *data)
@@ -138,22 +70,6 @@ void destroy_forks(t_data *data)
 		}
 		i++;
 	}
-}
-
-void print_status(char *str, int i)
-{
-	printf("%lu thread %d %s\n", get_time_stamp(), i, str);
-}
-
-size_t get_time_stamp()
-{
-	struct timeval tv;
-
-	if (gettimeofday(&tv, NULL) != 0)
-	{
-		write(2, "error gettimestamp\n", 20);
-	}
-	return (tv.tv_usec);
 }
 
 // philo update the time before eating

@@ -6,7 +6,7 @@
 int x = 0;
 pthread_mutex_t mutex;
 
-void *routine()
+void *routine_123()
 {
 	// printf("thread: %lu\n", pthread_self());
 	// printf("pid: %d\n", getpid());
@@ -35,7 +35,7 @@ int main()
 	// starts a new thread in the calling process
 	for (int i = 0; i < 4; i++)
 	{
-		if (pthread_create(&thread[i], NULL, routine, NULL) != 0)
+		if (pthread_create(&thread[i], NULL, routine_123, NULL) != 0)
 		{
 			perror("Failed to create thread\n");
 			return(1);
