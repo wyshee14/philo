@@ -6,7 +6,7 @@
 /*   By: welow <welow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:02:03 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/29 18:31:17 by welow            ###   ########.fr       */
+/*   Updated: 2025/06/30 21:08:02 by welow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_philo
 	pthread_mutex_t eat;
 	pthread_mutex_t sleep;
 	pthread_mutex_t write;
+	int is_dead;
 	int num_of_philo;
 }				t_philo;
 
@@ -58,6 +59,8 @@ void destroy_forks(t_data *data);
 //routine.c
 void *routine(void *arg);
 void philo_eat(t_philo *philo);
+void philo_sleep(t_philo *philo);
+void philo_think(t_philo *philo);
 
 //init.c
 void init_data(t_data *data, char **av);

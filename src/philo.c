@@ -6,7 +6,7 @@
 /*   By: welow <welow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 19:56:28 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/29 17:40:35 by welow            ###   ########.fr       */
+/*   Updated: 2025/06/30 21:20:00 by welow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int main (int ac, char **av)
 	init_forks(&data);
 	init_philo(&data, av);
 	init_threads(&data);
+	//monitor is another thread that monitor all philos
 	destroy_forks(&data);
 	return (0);
 }
