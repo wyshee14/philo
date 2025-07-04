@@ -63,7 +63,7 @@ void philo_think(t_philo *philo)
 int check_is_dead(t_philo *philo)
 {
 	int i = 0;
-	while (philo[i])
+	while (philo[i]->is_dead)
 	//if(philo[i])
 }
 

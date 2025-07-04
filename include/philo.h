@@ -6,7 +6,7 @@
 /*   By: welow <welow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:02:03 by wshee             #+#    #+#             */
-/*   Updated: 2025/06/30 21:08:02 by welow            ###   ########.fr       */
+/*   Updated: 2025/07/04 21:47:39 by welow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct t_data
 	int num_of_philo;
 	t_philo *philos;
 	pthread_mutex_t *forks;
+	pthread_t	monitor;
 }				t_data;
 
 typedef struct s_philo
