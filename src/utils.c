@@ -54,3 +54,12 @@ size_t get_time_stamp()
 	}
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
+
+void ft_usleep(size_t time_ms)
+{
+	size_t start;
+
+	start = get_time_stamp();
+	while(get_time_stamp() - start < time_ms)
+		usleep(200);
+}

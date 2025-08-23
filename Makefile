@@ -13,7 +13,7 @@ SRC_DIR = src/
 INC = -I$(INC_DIR)
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g3 -O3 -I$(INC_DIR)
+CFLAGS = -Wall -Wextra -Werror -g3 -O3 -I$(INC_DIR) -fsanitize=thread
 
 #Source Files
 #addprefix <prefix>, <list>
@@ -29,7 +29,7 @@ all: $(NAME)
 
 # -L tells the linker where to look for libraries -L<directory>
 $(NAME) : $(OBJ_SRC)
-	$(CC) $(CFLAGS) -pthread $(OBJ_SRC) -o $(NAME) 
+	$(CC) $(CFLAGS) -pthread $(OBJ_SRC) -o $(NAME)
 	@echo "$(GREEN)-----COMPILED DONE-----\n"
 
 %.o : %.c

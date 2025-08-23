@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: welow <welow@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:02:03 by wshee             #+#    #+#             */
-/*   Updated: 2025/07/04 21:47:39 by welow            ###   ########.fr       */
+/*   Updated: 2025/08/23 21:11:30 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 typedef struct s_philo t_philo;
 
@@ -28,7 +29,9 @@ typedef struct t_data
 	t_philo *philos;
 	pthread_mutex_t *forks;
 	pthread_t	monitor;
+	bool stop_program;
 }				t_data;
+// add print mutex
 
 typedef struct s_philo
 {
@@ -42,7 +45,8 @@ typedef struct s_philo
 	pthread_mutex_t *right_fork;
 	pthread_mutex_t eat;
 	pthread_mutex_t sleep;
-	pthread_mutex_t write;
+	pthread_mutex_t last_meal_mutex;
+	int last_meal;
 	int is_dead;
 	int num_of_philo;
 }				t_philo;
@@ -52,6 +56,7 @@ int ft_atoi (char *str);
 int check_is_valid_number(char *str);
 void print_status(char *str, int i);
 size_t get_time_stamp();
+void ft_usleep(size_t time_ms);
 
 //main.c
 void parse_argument(char **av);

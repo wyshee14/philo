@@ -19,6 +19,7 @@ int main (int ac, char **av)
 	init_philo(&data, av);
 	init_threads(&data);
 	//monitor is another thread that monitor all philos
+	// init_monitor(&data);
 	destroy_forks(&data);
 	return (0);
 }

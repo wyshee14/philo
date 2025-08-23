@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/23 19:37:15 by wshee             #+#    #+#             */
+/*   Updated: 2025/08/23 19:55:10 by wshee            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 void init_data(t_data *data, char **av)
@@ -13,6 +25,7 @@ void init_data(t_data *data, char **av)
 	memset(data->forks, 0, sizeof(pthread_mutex_t));
 }
 
+//pthread_create return 0 if success
 void init_threads(t_data *data)
 {
 	// pthread_t philo_thread[philo->num_of_philo];
@@ -21,8 +34,6 @@ void init_threads(t_data *data)
 
 	i = 0;
 	// pthread_mutex_init(&mutex, NULL);
-	if (pthread_create(&data->philos[i].thread, NULL, &routine, &data->philos[i]) != 0)
-
 	while(i < data->num_of_philo)
 	{
 		if (pthread_create(&data->philos[i].thread, NULL, &routine, &data->philos[i]) != 0)
@@ -97,3 +108,17 @@ void init_forks(t_data *data)
 		i++;
 	}
 }
+
+// void init_monitor(t_data *data)
+// {
+// 	if (pthread_create(data->monitor, NULL, &monitor_routine, data->monitor) != 0)
+// 	{
+// 		write(2, "Failed to create monitor thread.", 33);
+// 		return ;
+// 	}
+// 	if (pthread_join(data->monitor, NULL) != 0)
+// 	{
+// 		write(2, "Failed to join thread.", 23);
+// 		return ;
+// 	}
+// }
