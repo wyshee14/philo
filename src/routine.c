@@ -9,12 +9,13 @@ void *routine(void *arg)
 	philo = (t_philo *)arg;
 	//printf("index: %d\n", philo->index);
 	// while(check_is_dead(philo))
-
+	if (philo->index % 2 == 0)
+		usleep(100);
 	//even number sleep first(random time)
 	while (1)
 	{
 		// odd number take first
-		take_left_and_right_forks(philo);
+		take_left_and_right_fork(philo);
 		philo_eat(philo);
 		// release fork (unlock mutex)
 

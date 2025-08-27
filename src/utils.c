@@ -55,6 +55,7 @@ size_t get_time_stamp()
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
+//break into smaller parts to exit the program if someone died
 void ft_usleep(size_t time_ms)
 {
 	size_t start;

@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:02:03 by wshee             #+#    #+#             */
-/*   Updated: 2025/08/23 21:11:30 by wshee            ###   ########.fr       */
+/*   Updated: 2025/08/27 21:09:47 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void destroy_forks(t_data *data);
 
 //routine.c
 void *routine(void *arg);
+void take_left_and_right_fork(t_philo *philo);
 void philo_eat(t_philo *philo);
 void philo_sleep(t_philo *philo);
 void philo_think(t_philo *philo);
