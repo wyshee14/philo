@@ -35,9 +35,12 @@ int check_is_valid_number(char *str)
 	return (0);
 }
 
-void print_status(char *str, int i)
+// i is the philo index
+void print_status(t_data *data, char *str, int philo_index)
 {
-	printf("%lu %d %s\n", get_time_stamp(), i, str);
+	pthread_mutex_lock(&data->write_status);
+	printf("%lu %d %s\n", get_time_stamp(), philo_index, str);
+	pthread_mutex_unlock(&data->write_status);
 }
 
 //print the current timestamp in milliseconds

@@ -17,9 +17,8 @@ int main (int ac, char **av)
 	init_data(&data, av);
 	init_forks(&data);
 	init_philo(&data, av);
-	init_threads(&data);
-	//monitor is another thread that monitor all philos
 	// init_monitor(&data);
+	init_threads(&data);
 	destroy_forks(&data);
 	return (0);
 }
@@ -59,6 +58,11 @@ void destroy_forks(t_data *data)
 			return ;
 		}
 		i++;
+	}
+	if (pthread_mutex_destroy(&data->write_status) != 0)
+	{
+		write(2, "Failed to destroy mutex\n", 25);
+		return ;
 	}
 }
 

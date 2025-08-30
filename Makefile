@@ -13,7 +13,7 @@ SRC_DIR = src/
 INC = -I$(INC_DIR)
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g3 -O3 -I$(INC_DIR) -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -g3 -O3 -I$(INC_DIR) #-fsanitize=thread
 
 #Source Files
 #addprefix <prefix>, <list>
