@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:02:03 by wshee             #+#    #+#             */
-/*   Updated: 2025/08/30 21:20:31 by wshee            ###   ########.fr       */
+/*   Updated: 2025/09/05 18:24:40 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct t_data
 	pthread_mutex_t *forks;
 	pthread_mutex_t write_status;
 	pthread_t	monitor;
+	size_t time_start_simulation;
+	pthread_mutex_t stop_lock;
 	bool stop_simulation;
 }				t_data;
 // add print mutex
@@ -47,8 +49,9 @@ typedef struct s_philo
 	pthread_mutex_t last_meal_mutex;
 	pthread_mutex_t dead_lock;
 	size_t last_meal;
-	int is_dead;
-	int num_of_philo;
+	int meals_eaten;
+	bool is_dead;
+	// int num_of_philo;
 	t_data *data;
 }				t_philo;
 
@@ -57,19 +60,17 @@ int ft_atoi (char *str);
 int check_is_valid_number(char *str);
 void print_status(t_data *data, char *str, int philo_index);
 size_t get_time_stamp();
-void ft_usleep(size_t time_ms);
+void ft_usleep(size_t time_ms, t_data *data);
 
 //main.c
 void parse_argument(char **av);
-void destroy_forks(t_data *data);
+void destroy_mutex_data(t_data *data);
 
 //routine.c
 void *routine(void *arg);
-void take_left_and_right_fork(t_data *data, t_philo *philo);
-void philo_eat(t_philo *philo);
-void philo_sleep(t_philo *philo);
-void philo_think(t_philo *philo);
-void *check_is_dead(void *arg);
+
+//monitor.c
+void *monitoring(void *arg);
 
 //init.c
 void init_data(t_data *data, char **av);

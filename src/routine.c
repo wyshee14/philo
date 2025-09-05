@@ -1,6 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/05 15:20:56 by wshee             #+#    #+#             */
+/*   Updated: 2025/09/05 19:23:03 by wshee            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "../include/philo.h"
 
-void take_left_and_right_fork(t_data *data, t_philo *philo);
+static void take_left_and_right_fork(t_data *data, t_philo *philo);
+static void philo_eat(t_philo *philo);
+static void philo_sleep(t_philo *philo);
+static void philo_think(t_philo *philo);
+static bool check_stop_simulation(t_data *data);
 
 void *routine(void *arg)
 {
@@ -13,9 +29,16 @@ void *routine(void *arg)
 	//even number sleep first(random time)
 	if (philo->index % 2 == 0)
 		usleep(10000);
-	// while(check_is_dead(philo))
-	while (&check_is_dead)
+	while (check_stop_simulation(data))
 	{
+		if(data->num_of_philo == 1)
+		{
+			pthread_mutex_lock(philo->left_fork);
+			print_status(data, "has taken a fork", philo->index);
+			pthread_mutex_unlock(philo->left_fork);
+			ft_usleep(philo->time_to_die, data);
+			return (NULL);
+		}
 		// odd number take first
 		take_left_and_right_fork(data, philo);
 		philo_eat(philo);
@@ -29,7 +52,7 @@ void *routine(void *arg)
 	return (NULL);
 }
 
-void take_left_and_right_fork(t_data *data, t_philo *philo)
+static void take_left_and_right_fork(t_data *data, t_philo *philo)
 {
 	//take left fork
 	if (pthread_mutex_lock(philo->left_fork) != 0)
@@ -48,69 +71,49 @@ void take_left_and_right_fork(t_data *data, t_philo *philo)
 // update last meal time, sleep (time to eat)
 // mutex lock to write the time start of last meal, then unlock after writing
 // print is eating (use sleep to simulate -> because to prevent pc from burning)
-void philo_eat(t_philo *philo)
+static void philo_eat(t_philo *philo)
 {
 	// need a mutex for the monitor to read it
 	// once the mutex unlock the monitor can read the actual time
-	pthread_mutex_lock(&philo->last_meal_mutex);
+	if(pthread_mutex_lock(&philo->last_meal_mutex) != 0)
+		printf("failed to lock mutex\n");
 	philo->last_meal = get_time_stamp();
-	pthread_mutex_unlock(&philo->last_meal_mutex);
+	if(pthread_mutex_unlock(&philo->last_meal_mutex) != 0)
+		printf("failed to unlock mutex\n");
 
 	print_status(philo->data, "is eating", philo->index);
 
-	ft_usleep(philo->time_to_eat);
+	ft_usleep(philo->time_to_eat, philo->data);
 	//release the fork
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
+	//update number of meals eaten
+
+	if(pthread_mutex_lock(&philo->last_meal_mutex) != 0)
+		printf("failed to lock meals eaten\n");
+	philo->meals_eaten++;
+	if(pthread_mutex_unlock(&philo->last_meal_mutex) != 0)
+		printf("failed to unlock meals eaten\n");
 }
 
 // create a helper function to sleep in small chunks so it can break early if stop_program is true
-void philo_sleep(t_philo *philo)
+static void philo_sleep(t_philo *philo)
 {
 	print_status(philo->data, "is sleeping", philo->index);
-	ft_usleep(philo->time_to_sleep);
+	ft_usleep(philo->time_to_sleep, philo->data);
 }
 
-void philo_think(t_philo *philo)
+static void philo_think(t_philo *philo)
 {
 	print_status(philo->data, "is thinking", philo->index);
 }
 
-// need to create a thread for monitor first
-// monitor every philo is dead or not (monitoring thread)
-// dead lock is lock when they checking philos is dead or not
-// after confirm is dead, unlock, then
-// return 1 if philo is dead, 0 if no philo is dead
-void *check_is_dead(void *arg)
+static bool check_stop_simulation(t_data *data)
 {
-	t_data	*data;
-	int		i;
+	bool status;
 
-	data = (t_data *)arg;
-	while (data->stop_simulation == false)
-	{
-		i = 0;
-		while(i < data->num_of_philo)
-		{
-			if (data->philos[i].time_to_die <= get_time_stamp() - data->philos[i].last_meal)
-			{
-				//change the flag is dead
-				pthread_mutex_lock(&data->philos[i].dead_lock);
-				data->philos[i].is_dead = 1;
-				pthread_mutex_unlock(&data->philos[i].dead_lock);
-				//print dead status
-				print_status(data, "is died", i);
-				data-> stop_simulation = true;
-				//TODO: EXIT THE WHOLE PROGRAM
-				return(NULL);
-			}
-			i++;
-		}
-	}
-	return(NULL);
+	pthread_mutex_lock(&data->stop_lock);
+	status = data->stop_simulation;
+	pthread_mutex_unlock(&data->stop_lock);
+	return (status);
 }
-
-//monitor every philo has eaten number of times to eat (optional)
-// then simulation stops
-
-

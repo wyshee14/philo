@@ -38,8 +38,17 @@ int check_is_valid_number(char *str)
 // i is the philo index
 void print_status(t_data *data, char *str, int philo_index)
 {
+	// size_t time_ms;
+	bool stop;
+
+	pthread_mutex_lock(&data->stop_lock);
+	stop = data->stop_simulation;
+	pthread_mutex_unlock(&data->stop_lock);
+	// time_ms = get_time_stamp() - data->time_start_simulation;
+	if (data->stop_simulation == true)
+		return ;
 	pthread_mutex_lock(&data->write_status);
-	printf("%lu %d %s\n", get_time_stamp(), philo_index, str);
+	printf("\033[31m%lu\033[0m %d %s\n", get_time_stamp() - data->time_start_simulation, philo_index, str);
 	pthread_mutex_unlock(&data->write_status);
 }
 
@@ -59,11 +68,20 @@ size_t get_time_stamp()
 }
 
 //break into smaller parts to exit the program if someone died
-void ft_usleep(size_t time_ms)
+void ft_usleep(size_t time_ms, t_data *data)
 {
 	size_t start;
+	bool stop;
 
 	start = get_time_stamp();
 	while(get_time_stamp() - start < time_ms)
+	{
+		pthread_mutex_lock(&data->stop_lock);
+		stop = data->stop_simulation;
+		pthread_mutex_unlock(&data->stop_lock);
+		if (stop == true)
+			return ;
 		usleep(200);
+	}
+	// usleep(time_ms);
 }

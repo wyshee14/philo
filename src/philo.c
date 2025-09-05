@@ -19,7 +19,7 @@ int main (int ac, char **av)
 	init_philo(&data, av);
 	// init_monitor(&data);
 	init_threads(&data);
-	destroy_forks(&data);
+	destroy_mutex_data(&data);
 	return (0);
 }
 
@@ -45,25 +45,38 @@ void parse_argument(char **av)
 	// 	printf("atoi: %d\n", args[i]);
 }
 
-void destroy_forks(t_data *data)
+void destroy_mutex_data(t_data *data)
 {
 	int i;
 
 	i = 0;
 	while (i < data->num_of_philo)
 	{
+		if (pthread_mutex_destroy(&data->philos[i].last_meal_mutex))
+		{
+			write(2, "Failed to destroy mutex last meal\n", 35);
+			return ;
+		}
+		pthread_mutex_destroy(&data->philos[i].dead_lock);
 		if (pthread_mutex_destroy(&data->forks[i]) != 0)
 		{
-			write(2, "Failed to destroy mutex\n", 25);
+			write(2, "Failed to destroy mutex forks\n", 31);
 			return ;
 		}
 		i++;
 	}
 	if (pthread_mutex_destroy(&data->write_status) != 0)
 	{
-		write(2, "Failed to destroy mutex\n", 25);
+		write(2, "Failed to destroy mutex write\n", 31);
 		return ;
 	}
+	if (pthread_mutex_destroy(&data->stop_lock) != 0)
+	{
+		write(2, "Failed to destroy mutex stop\n", 30);
+		return ;
+	}
+	free(data->philos);
+	free(data->forks);
 }
 
 // philo update the time before eating
