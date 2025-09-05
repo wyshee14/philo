@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:02:03 by wshee             #+#    #+#             */
-/*   Updated: 2025/09/05 18:24:40 by wshee            ###   ########.fr       */
+/*   Updated: 2025/09/06 00:39:22 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ typedef struct t_data
 	pthread_mutex_t stop_lock;
 	bool stop_simulation;
 }				t_data;
-// add print mutex
 
 typedef struct s_philo
 {
@@ -51,7 +50,6 @@ typedef struct s_philo
 	size_t last_meal;
 	int meals_eaten;
 	bool is_dead;
-	// int num_of_philo;
 	t_data *data;
 }				t_philo;
 
@@ -68,6 +66,7 @@ void destroy_mutex_data(t_data *data);
 
 //routine.c
 void *routine(void *arg);
+bool check_stop_simulation(t_data *data);
 
 //monitor.c
 void *monitoring(void *arg);

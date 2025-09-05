@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:20:20 by wshee             #+#    #+#             */
-/*   Updated: 2025/09/05 19:25:25 by wshee            ###   ########.fr       */
+/*   Updated: 2025/09/06 01:10:36 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,17 @@ static bool check_is_dead(t_data *data)
 static bool check_is_full(t_data *data)
 {
 	int i;
+	bool is_full;
 
 	i = 0;
 	while(i < data->num_of_philo)
 	{
 		if(data->philos[i].number_of_times_to_eat == -1)
 			return (false);
-		if (data->philos[i].meals_eaten < data->philos[i].number_of_times_to_eat)
+		pthread_mutex_lock(&data->philos[i].last_meal_mutex);
+		is_full = (data->philos[i].meals_eaten < data->philos[i].number_of_times_to_eat);
+		pthread_mutex_unlock(&data->philos[i].last_meal_mutex);
+		if (!is_full)
 			return (false);
 		i++;
 	}

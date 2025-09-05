@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:20:56 by wshee             #+#    #+#             */
-/*   Updated: 2025/09/05 19:23:03 by wshee            ###   ########.fr       */
+/*   Updated: 2025/09/06 00:51:49 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void take_left_and_right_fork(t_data *data, t_philo *philo);
 static void philo_eat(t_philo *philo);
 static void philo_sleep(t_philo *philo);
 static void philo_think(t_philo *philo);
-static bool check_stop_simulation(t_data *data);
 
 void *routine(void *arg)
 {
@@ -29,8 +28,10 @@ void *routine(void *arg)
 	//even number sleep first(random time)
 	if (philo->index % 2 == 0)
 		usleep(10000);
-	while (check_stop_simulation(data))
+	while (!check_stop_simulation(data))
 	{
+        // if (check_stop_simulation(data))
+        //     return (NULL);
 		if(data->num_of_philo == 1)
 		{
 			pthread_mutex_lock(philo->left_fork);
@@ -108,7 +109,7 @@ static void philo_think(t_philo *philo)
 	print_status(philo->data, "is thinking", philo->index);
 }
 
-static bool check_stop_simulation(t_data *data)
+bool check_stop_simulation(t_data *data)
 {
 	bool status;
 
