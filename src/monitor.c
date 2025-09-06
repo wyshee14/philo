@@ -6,92 +6,96 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:20:20 by wshee             #+#    #+#             */
-/*   Updated: 2025/09/06 16:18:45 by wshee            ###   ########.fr       */
+/*   Updated: 2025/09/07 02:58:41 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../include/philo.h"
+#include "../include/philo.h"
 
-static bool check_is_dead(t_data *data);
-static bool check_is_full(t_data *data);
+static bool	check_is_dead(t_data *data);
+static bool	check_is_full(t_data *data);
 
-// need to create a thread for monitor first
-// monitor every philo is dead or not (monitoring thread)
-// dead lock is lock when they checking philos is dead or not
-// after confirm is dead, unlock, then
-// return 1 if philo is dead, 0 if no philo is dead
-void *monitoring(void *arg)
+// need to create a thread to monitor all philo
+// monitor every philo is dead or all philo is full
+// stop simulation if either condition is true (stop_lock)
+// philo check the flag stop to stop the routine
+void	*monitoring(void *arg)
 {
 	t_data	*data;
-	int		i;
 
 	data = (t_data *)arg;
-	while (data->stop_simulation == false)
+	while (!check_stop_simulation(data))
 	{
-		i = 0;
-		while(i < data->num_of_philo)
+		if (check_is_dead(data) || check_is_full(data))
 		{
-			// printf("time_to_die[%d]: %lu\n", data->philos[i].index, data->philos[i].time_to_die);
-			// printf("last_meal_time[%d]: %lu\n", data->philos[i].index, data->philos[i].last_meal);
-			// printf("time_now: %lu\n", get_time_stamp());
-			if (check_is_dead(data) || check_is_full(data))
-			{
-				//if one of the condition above is true, stop simulation
-				pthread_mutex_lock(&data->stop_lock);
-				data-> stop_simulation = true;
-				pthread_mutex_unlock(&data->stop_lock);
-				return(NULL);
-			}
-			i++;
+			pthread_mutex_lock(&data->stop_lock);
+			data->stop_simulation = true;
+			pthread_mutex_unlock(&data->stop_lock);
+			break ;
 		}
 	}
 	return (NULL);
 }
 
-static bool check_is_dead(t_data *data)
+// philo die if it have not eaten from the last meal time from the time to die
+// use mutex to read the lastmeal time, as it is accessible by philo
+// dead lock is lock when they checking philos is dead or not
+// change status of each philo to died if philo is dead, then unlock
+static bool	check_is_dead(t_data *data)
 {
-	int i;
-	bool is_dead;
+	int		i;
+	bool	is_dead;
 
 	i = 0;
-	while(i < data->num_of_philo)
+	while (i < data->num_of_philo)
 	{
 		pthread_mutex_lock(&data->philos[i].last_meal_mutex);
-		is_dead = (data->philos[i].time_to_die <= get_time_stamp() - data->philos[i].last_meal);
+		is_dead = (get_time_stamp() - data->philos[i].last_meal) >= \
+			data->philos[i].time_to_die;
 		pthread_mutex_unlock(&data->philos[i].last_meal_mutex);
-		if(is_dead)
+		if (is_dead)
 		{
-			//change the flag is dead
 			pthread_mutex_lock(&data->philos[i].dead_lock);
 			data->philos[i].is_dead = true;
 			pthread_mutex_unlock(&data->philos[i].dead_lock);
-			//print dead status
-			print_status(data, "is died", data->philos[i].index);
+			print_status(data, "is died", data->philos[i].index, IS_DIED);
 			return (true);
 		}
 		i++;
 	}
-	return(false);
+	return (false);
 }
 
 // monitor every philo has eaten number of times to eat (optional)
 // then simulation stops
-static bool check_is_full(t_data *data)
+static bool	check_is_full(t_data *data)
 {
-	int i;
-	bool is_full;
+	int		i;
+	bool	is_full;
+	t_philo	*philo;
 
 	i = 0;
-	while(i < data->num_of_philo)
+	philo = data->philos;
+	while (i < data->num_of_philo)
 	{
-		if(data->philos[i].number_of_times_to_eat == -1)
+		if (philo[i].number_of_times_to_eat == -1)
 			return (false);
-		pthread_mutex_lock(&data->philos[i].last_meal_mutex);
-		is_full = (data->philos[i].meals_eaten < data->philos[i].number_of_times_to_eat);
-		pthread_mutex_unlock(&data->philos[i].last_meal_mutex);
+		pthread_mutex_lock(&philo[i].last_meal_mutex);
+		is_full = philo[i].meals_eaten < philo[i].number_of_times_to_eat;
+		pthread_mutex_unlock(&philo[i].last_meal_mutex);
 		if (is_full)
 			return (false);
 		i++;
 	}
-	return(true);
+	return (true);
+}
+
+bool	check_stop_simulation(t_data *data)
+{
+	bool	status;
+
+	pthread_mutex_lock(&data->stop_lock);
+	status = data->stop_simulation;
+	pthread_mutex_unlock(&data->stop_lock);
+	return (status);
 }
