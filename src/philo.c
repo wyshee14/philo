@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/06 19:15:54 by wshee             #+#    #+#             */
+/*   Updated: 2025/09/06 19:16:34 by wshee            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include <pthread.h>
 # include <stdio.h>
 # include "../include/philo.h"
@@ -13,7 +25,8 @@ int main (int ac, char **av)
 		printf("argument must be more than 5\n");
 		return (1);
 	}
-	parse_argument(av);
+	if(check_invalid_input(av))
+		return (1);
 	init_data(&data, av);
 	init_forks(&data);
 	init_philo(&data, av);
@@ -23,26 +36,28 @@ int main (int ac, char **av)
 	return (0);
 }
 
-void parse_argument(char **av)
+int check_invalid_input(char **av)
 {
 	int i;
+	int max_philo;
 
 	i = 1;
 	while (av[i])
 	{
-		// printf("argument[%d]: %s\n", i, av[i]);
-		//check the argument is a number
 		if (check_is_valid_number(av[i]) == -1)
 		{
-			printf("argument is not a number\n");
-			exit(1);
+			write(2, "argument is not a positive number\n", 35);
+			return (1);
 		}
-		// convert into integer
-		//args[i - 1] = ft_atoi(av[i]);
+		max_philo=ft_atoi(av[1]);
+		if (max_philo > 200)
+		{
+			write(2, "Number of philo should not be more than 200\n", 45);
+			return(1);
+		}
 		i++;
 	}
-	// for (int i = 0; i < ac - 1; i++)
-	// 	printf("atoi: %d\n", args[i]);
+	return(0);
 }
 
 void destroy_mutex_data(t_data *data)

@@ -6,19 +6,15 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 19:37:15 by wshee             #+#    #+#             */
-/*   Updated: 2025/09/05 17:07:43 by wshee            ###   ########.fr       */
+/*   Updated: 2025/09/06 19:22:26 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void init_data(t_data *data, char **av)
+void	init_data(t_data *data, char **av)
 {
 	memset(data, 0, sizeof(t_data));
-	data->num_of_philo = ft_atoi(av[1]);
-	// printf("num of philo: %d\n", data->num_of_philo);
-	if (data->num_of_philo > 200)
-		return ;
 	data->philos = (t_philo *)malloc(data->num_of_philo * sizeof(t_philo));
 	memset(data->philos, 0, sizeof(t_philo));
 	data->forks = (pthread_mutex_t *)malloc(data->num_of_philo * sizeof(pthread_mutex_t));
@@ -33,7 +29,6 @@ void init_data(t_data *data, char **av)
 		write(2, "Failed to init mutex\n", 22);
 		return ;
 	}
-	// printf("write_lock: %p\n", &data->write_status);
 }
 
 //pthread_create return 0 if success

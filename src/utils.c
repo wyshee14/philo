@@ -73,3 +73,13 @@ void ft_usleep(size_t time_ms, t_data *data)
 		usleep(200);
 	}
 }
+
+// void ft_read_mutex(t_data *data, void *arg, pthread_mutex_t *lock)
+// {
+// 	(void *)arg;
+
+// 	pthread_mutex_lock(&lock);
+// 	status = arg;
+// 	pthread_mutex_unlock(&lock);
+// 	return (status);
+// }

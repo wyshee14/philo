@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:20:20 by wshee             #+#    #+#             */
-/*   Updated: 2025/09/06 01:10:36 by wshee            ###   ########.fr       */
+/*   Updated: 2025/09/06 16:18:45 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,15 @@ void *monitoring(void *arg)
 static bool check_is_dead(t_data *data)
 {
 	int i;
+	bool is_dead;
 
 	i = 0;
 	while(i < data->num_of_philo)
 	{
 		pthread_mutex_lock(&data->philos[i].last_meal_mutex);
-		if (data->philos[i].time_to_die <= get_time_stamp() - data->philos[i].last_meal)
+		is_dead = (data->philos[i].time_to_die <= get_time_stamp() - data->philos[i].last_meal);
+		pthread_mutex_unlock(&data->philos[i].last_meal_mutex);
+		if(is_dead)
 		{
 			//change the flag is dead
 			pthread_mutex_lock(&data->philos[i].dead_lock);
@@ -64,10 +67,8 @@ static bool check_is_dead(t_data *data)
 			pthread_mutex_unlock(&data->philos[i].dead_lock);
 			//print dead status
 			print_status(data, "is died", data->philos[i].index);
-			pthread_mutex_unlock(&data->philos[i].last_meal_mutex);
 			return (true);
 		}
-		pthread_mutex_unlock(&data->philos[i].last_meal_mutex);
 		i++;
 	}
 	return(false);
@@ -88,7 +89,7 @@ static bool check_is_full(t_data *data)
 		pthread_mutex_lock(&data->philos[i].last_meal_mutex);
 		is_full = (data->philos[i].meals_eaten < data->philos[i].number_of_times_to_eat);
 		pthread_mutex_unlock(&data->philos[i].last_meal_mutex);
-		if (!is_full)
+		if (is_full)
 			return (false);
 		i++;
 	}
