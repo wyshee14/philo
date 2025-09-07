@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:20:20 by wshee             #+#    #+#             */
-/*   Updated: 2025/09/07 02:58:41 by wshee            ###   ########.fr       */
+/*   Updated: 2025/09/07 11:30:28 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static bool	check_is_dead(t_data *data)
 	while (i < data->num_of_philo)
 	{
 		pthread_mutex_lock(&data->philos[i].last_meal_mutex);
-		is_dead = (get_time_stamp() - data->philos[i].last_meal) >= \
-			data->philos[i].time_to_die;
+		is_dead = (get_time_stamp() - data->philos[i].last_meal)
+			>= data->philos[i].time_to_die;
 		pthread_mutex_unlock(&data->philos[i].last_meal_mutex);
 		if (is_dead)
 		{

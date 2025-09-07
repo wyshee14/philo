@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/07 11:31:51 by wshee             #+#    #+#             */
+/*   Updated: 2025/09/07 11:31:57 by wshee            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 // check stop flag every time when print
@@ -7,19 +19,19 @@ void	print_status(t_data *data, char *str, int philo_index, int action)
 		return ;
 	pthread_mutex_lock(&data->write_status);
 	if (action == 1)
-		printf(BLUE"%lu " YELLOW"%d " RESET"%s" RESET"\n", \
+		printf(BLUE"%lu " YELLOW"%d " RESET"%s" RESET"\n",
 			get_time_stamp() - data->time_start_simulation, philo_index, str);
 	else if (action == 2)
-		printf(BLUE"%lu " YELLOW"%d " GREEN"%s" RESET"\n", \
+		printf(BLUE"%lu " YELLOW"%d " GREEN"%s" RESET"\n",
 			get_time_stamp() - data->time_start_simulation, philo_index, str);
 	else if (action == 3)
-		printf(BLUE"%lu " YELLOW"%d " MAGENTA"%s" RESET"\n", \
+		printf(BLUE"%lu " YELLOW"%d " MAGENTA"%s" RESET"\n",
 			get_time_stamp() - data->time_start_simulation, philo_index, str);
 	else if (action == 4)
-		printf(BLUE"%lu " YELLOW"%d " CYAN"%s" RESET"\n", \
+		printf(BLUE"%lu " YELLOW"%d " CYAN"%s" RESET"\n",
 			get_time_stamp() - data->time_start_simulation, philo_index, str);
 	else if (action == 5)
-		printf(BLUE"%lu " YELLOW"%d " RED"%s" RESET"\n", \
+		printf(BLUE"%lu " YELLOW"%d " RED"%s" RESET"\n",
 			get_time_stamp() - data->time_start_simulation, philo_index, str);
 	pthread_mutex_unlock(&data->write_status);
 }

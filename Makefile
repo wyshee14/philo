@@ -16,18 +16,13 @@ CC = clang
 CFLAGS = -Wall -Wextra -Werror -g3 -O3 -I$(INC_DIR) -fsanitize=thread
 
 #Source Files
-#addprefix <prefix>, <list>
-#<prefix> is the string that added to the beginning of each word
 SRC = \
-$(wildcard $(SRC_DIR)*.c) \
-#SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
-#BUILTIN = $(addprefix $(BUILTIN_DIR), $(BUILTIN_FILES))
+$(addprefix $(SRC_DIR), init.c	monitor.c	philo.c	routine.c	utils.c	validate_input.c) \
 
 OBJ_SRC = $(SRC:.c=.o)
 
 all: $(NAME)
 
-# -L tells the linker where to look for libraries -L<directory>
 $(NAME) : $(OBJ_SRC)
 	$(CC) $(CFLAGS) -pthread $(OBJ_SRC) -o $(NAME)
 	@echo "$(GREEN)-----COMPILED DONE-----\n"

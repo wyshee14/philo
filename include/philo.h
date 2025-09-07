@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:02:03 by wshee             #+#    #+#             */
-/*   Updated: 2025/09/07 03:08:50 by wshee            ###   ########.fr       */
+/*   Updated: 2025/09/07 11:21:40 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 
-typedef struct	s_philo t_philo;
+typedef struct s_philo	t_philo;
 
 typedef struct t_data
 {
@@ -68,10 +68,10 @@ typedef struct s_philo
 }				t_philo;
 
 //validate_input.c
-int	check_invalid_input(char **av);
-int	ft_atoi(char *str);
+int		check_invalid_input(char **av);
+int		ft_atoi(char *str);
 
-// utils.c
+//utils.c
 void	print_status(t_data *data, char *str, int philo_index, int action);
 size_t	get_time_stamp(void);
 void	ft_usleep(size_t time_ms, t_data *data);
@@ -79,8 +79,8 @@ int		ft_init_mutex(pthread_mutex_t *lock);
 void	assign_forks(t_data *data, int i);
 
 //main.c
-int	destroy_mutex_data(t_data *data);
-int	ft_destroy_mutex(pthread_mutex_t *lock);
+int		destroy_mutex_data(t_data *data);
+int		ft_destroy_mutex(pthread_mutex_t *lock);
 
 //routine.c
 void	*routine(void *arg);
@@ -90,9 +90,9 @@ void	*monitoring(void *arg);
 bool	check_stop_simulation(t_data *data);
 
 //init.c
-int	init_data(t_data *data, char **av);
-int	init_threads(t_data *data);
-int	init_philo(t_data *data, char **av);
-int	init_forks(t_data *data);
+int		init_data(t_data *data, char **av);
+int		init_threads(t_data *data);
+int		init_philo(t_data *data, char **av);
+int		init_forks(t_data *data);
 
 #endif

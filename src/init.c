@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 19:37:15 by wshee             #+#    #+#             */
-/*   Updated: 2025/09/07 02:51:29 by wshee            ###   ########.fr       */
+/*   Updated: 2025/09/07 11:29:01 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	init_data(t_data *data, char **av)
 	data->num_of_philo = ft_atoi(av[1]);
 	data->philos = (t_philo *)malloc(data->num_of_philo * sizeof(t_philo));
 	memset(data->philos, 0, sizeof(t_philo));
-	data->forks = (pthread_mutex_t *)malloc(data->num_of_philo * \
-		sizeof(pthread_mutex_t));
+	data->forks = (pthread_mutex_t *)malloc(data->num_of_philo
+			* sizeof(pthread_mutex_t));
 	memset(data->forks, 0, sizeof(pthread_mutex_t));
 	if (ft_init_mutex(&data->write_status))
 		return (1);
@@ -34,7 +34,7 @@ int	init_data(t_data *data, char **av)
 // create philo and monitor thread tgt
 // pthread_join is wait the thread to finish
 // join all philo thread, then join monitor
-// monitor must wait until all philo finish 
+// monitor must wait until all philo finish
 // record the time start simulation to get make simulation starts from 0
 // init last meal to let monitor check from the start
 int	init_threads(t_data *data)
@@ -46,8 +46,8 @@ int	init_threads(t_data *data)
 	while (i < data->num_of_philo)
 	{
 		data->philos[i].last_meal = get_time_stamp();
-		if (pthread_create(&data->philos[i].thread, NULL, &routine, \
-			&data->philos[i]) != 0)
+		if (pthread_create(&data->philos[i].thread, NULL, &routine,
+				&data->philos[i]) != 0)
 		{
 			write(2, "Failed to create philo thread\n", 31);
 			return (1);
