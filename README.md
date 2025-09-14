@@ -60,3 +60,15 @@ Single ohilo should die (one fork only)
 ./philo 4 310 200 100
 ```
 philo should die
+## Check for data race and dead lock:
+1. `-g fsanitize=thread`
+```
+cc -g -fsanitize=thread philo.c -pthread -o philo
+./philo 5 800 200 200
+```
+2. `valgrind --tools=helgrind` (compile with -g)
+```
+valgrind --tools=helgrind ./philo 5 800 200 200
+```
+**NOTE: DO NOT USE SIMULTANEOUSLY** \
+Remember to check for memory leaks as well
