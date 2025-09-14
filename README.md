@@ -14,7 +14,7 @@ The rules:
 - they dont know the status of other philo
 - philo number starts from 1 to number_of_philo
 - philo n must sit next to philo (n + 1) and (n - 1)
-- (PROGRAM MUST NOT HAVE DATA RACE)
+- **(PROGRAM MUST NOT HAVE DATA RACE)**
 
 ## What is data race?
 - Data races occur when multiple tasks or threads access a shared resource without sufficient protections, leading to undefined or unpredictable behavior.
@@ -42,15 +42,21 @@ A thread is an execution unit that has its own program counter, a stack and a se
 4. time_to_sleep(ms): time the philo to sleep
 5. number_of_times each philo must eat (optional): program stops when all philo eat witht the number, if not program stops when a philo die
 
-# Function
-1. int pthread_create (pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg);
-- starts execution by invoking start routine
-- stores the thread_ID in buffer pointed by thread
-- RETURN VALUE: 0 (SUCCESS) / error number
-
-attr (set as NULL) - is set to default
-
-#### How it terminates:
-- when calling pthread_exit
-- when pthread_cancel
-- any of the thread calls exit
+# Run the program
+Argument 1-4 (mandatory), arguemnt 5 (optional)
+## Simulation stops when:
+1. philo did not eat since their last meal within time to die
+2. all philo is full (arg 5)
+## Examples:
+```
+./philo 5 800 200 200 9[optional]
+```
+No one should die
+```
+./philo 1 800 200 200
+```
+Single ohilo should die (one fork only)
+```
+./philo 4 310 200 100
+```
+philo should die

@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:20:56 by wshee             #+#    #+#             */
-/*   Updated: 2025/09/07 03:01:57 by wshee            ###   ########.fr       */
+/*   Updated: 2025/09/14 21:09:35 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	data = philo->data;
+	if (philo->number_of_times_to_eat == 0)
+		return (NULL);
 	if (philo->index % 2 == 0)
 		ft_usleep(20, data);
 	while (!check_stop_simulation(data))
@@ -102,9 +104,13 @@ static void	philo_eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->last_meal_mutex);
 }
 
+// extra sleep time when thinking when num of philo is odd
+// let the philo take fork in order, avoid philo dying, more consistent 
 static void	philo_sleep_and_think(t_philo *philo)
 {
 	print_status(philo->data, "is sleeping", philo->index, IS_SLEEPING);
 	ft_usleep(philo->time_to_sleep, philo->data);
 	print_status(philo->data, "is thinking", philo->index, IS_THINKING);
+	if (philo->data->num_of_philo % 2 == 0)
+		ft_usleep(1, philo->data);
 }
